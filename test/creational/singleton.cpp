@@ -17,12 +17,33 @@ public:
 
 TEST(DessignPatternSingletonTest, SingletonInstantiation)
 {
+    auto a = my_singleton::get();
+    my_singleton b;
+
+    ASSERT_FALSE(std::addressof(a) == std::addressof(b));
+    ASSERT_TRUE(std::addressof(*a) == std::addressof(*b));
+    ASSERT_TRUE(std::addressof(a.get()) == std::addressof(b.get()));
+    ASSERT_STREQ(a->instance_addr().c_str(), b->instance_addr().c_str());
+}
+
+TEST(DessignPatternSingletonTest, SingletonEquality)
+{
     my_singleton a;
     my_singleton b;
 
-    ASSERT_STREQ(a->instance_addr().c_str(), b->instance_addr().c_str());
-    ASSERT_STREQ(my_singleton::get().instance_addr().c_str(),
-                 a->instance_addr().c_str());
+    ASSERT_EQ(a, b);
+}
+
+TEST(DessignPatternSingletonTest, SingletonNotEquality)
+{
+    my_singleton a;
+
+    class my_class {};
+    my_class b;
+    int c = 0;
+
+    ASSERT_TRUE(a != b);
+    ASSERT_TRUE(a != c);
 }
 
 int main(int argc, char **argv) {

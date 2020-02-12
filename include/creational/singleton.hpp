@@ -18,8 +18,17 @@ template<typename T>
 class singleton {
 
 public:
-    singleton(const singleton<T>&) = delete;
+    singleton(const singleton<T>&) = default;
     singleton& operator=(const singleton<T>&) = delete;
+
+    template <typename U>
+    inline bool operator==(const U& rhs) const {
+        return std::is_same<T,U>::value;
+    }
+    template <typename U>
+    inline bool operator!=(const U& rhs) const {
+        return !(*this == rhs);
+    }
 
 protected:
     singleton()
