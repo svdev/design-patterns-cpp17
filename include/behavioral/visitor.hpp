@@ -1,7 +1,8 @@
-#ifndef DESIGN_PATTERN_VISITOR_HPP
-#define DESIGN_PATTERN_VISITOR_HPP
+#ifndef PATTERNS_VISITOR_HPP
+#define PATTERNS_VISITOR_HPP
 
 #include <memory>
+#include "util/text.hpp"
 
 namespace design_patterns {
 namespace behavioral {
@@ -10,25 +11,27 @@ namespace behavioral {
 template<typename... Types>
 class visitor;
 
-template<typename T>
-class visitor<T> {
+template<typename _VisitableType>
+class visitor<_VisitableType> {
 public:
-    virtual void visit(T & visitable) = 0;
+    virtual void visit(_VisitableType & visitable) = 0;
+    const std::string name() const {
+        return demangle(typeid(*this).name());
+    }
 };
 
-
-template<typename T, typename... Types>
-class visitor<T, Types...> : public visitor<Types...> {
+template<typename _VisitableType, typename... _VisitableTypes>
+class visitor<_VisitableType, _VisitableTypes...> : public visitor<_VisitableTypes...> {
 public:
-    using visitor<Types...>::visit;
-    virtual void visit(T & visitable) = 0;
+    using visitor<_VisitableTypes...>::visit;
+    virtual void visit(_VisitableType & visitable) = 0;
 };
 
 template<typename Derived, typename... Types>
 class visitable {
 public:
     typedef visitor<Types...>& visitor_type;
-    virtual void accept(visitor<Types...>& visitor) {
+    virtual void accept(visitor_type visitor) {
         visitor.visit(static_cast<Derived&>(*this));
     }
 };
@@ -44,14 +47,13 @@ public:
 };
 */
 
-template <typename T, typename... Args>
-static std::shared_ptr<T> make_visitor(Args&& ...args)
+template <typename _TDerived, typename... _Args>
+static std::shared_ptr<_TDerived> make_visitor(_Args&& ...args)
 {
-    //@TODO: Check T is derived from visitor<Types...>
-    return std::make_shared<T>(std::forward<Args>(args)...);
+    return std::make_shared<_TDerived>(std::forward<_Args>(args)...);
 }
 
 }
 }
 
-#endif //DESIGN_PATTERN_VISITOR_HPP
+#endif //PATTERNS_VISITOR_HPP

@@ -1,5 +1,5 @@
-#ifndef DESIGN_PATTERN_SINGLETON_HPP
-#define DESIGN_PATTERN_SINGLETON_HPP
+#ifndef PATTERNS_SINGLETON_HPP
+#define PATTERNS_SINGLETON_HPP
 
 namespace design_patterns {
 namespace creational {
@@ -57,4 +57,4 @@ public:
 }
 }
 
-#endif //DESIGN_PATTERN_SINGLETON_HPP
+#endif //PATTERNS_SINGLETON_HPP

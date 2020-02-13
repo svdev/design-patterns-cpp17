@@ -3,33 +3,80 @@
 
 namespace dpc = design_patterns::creational;
 
-struct my_class {};
+struct my_base_class {};
+
+struct my_derived_class : public my_base_class {
+  my_derived_class() = default;
+  explicit my_derived_class(int val1) { }
+  explicit my_derived_class(float val1) { }
+  explicit my_derived_class(float val1, int val2) { }
+  explicit my_derived_class(double val1, int val2) { }
+};
 
 TEST(DessignPatternFactoryTest, FactoryRegistration)
 {
-    auto fac = dpc::factory<my_class>::get_instance();
-    fac.register_type<my_class>("my_class");
-    ASSERT_EQ (fac.registered(), 1);
+    auto fac = dpc::factory<my_base_class>::get_instance(true);
+    ASSERT_EQ(fac.registered(), 0);
+
+    fac.register_type<my_derived_class>("my_derived_class");
+    fac.register_type<my_derived_class, int>("my_derived_class");
+    fac.register_type<my_derived_class, float>("my_derived_class");
+    fac.register_type<my_derived_class, float, int>("my_derived_class");
+    fac.register_type<my_derived_class, double, int>("my_derived_class");
+
+    ASSERT_EQ(fac.registered("my_derived_class"), 5);
 }
 
-TEST(DessignPatternFactoryTest, FactoryCreation)
+TEST(DessignPatternFactoryTest, FactoryGetEmpty)
 {
-    auto fac1 = dpc::factory<my_class>::get_instance();
+    auto fac = dpc::factory<my_base_class>::get_instance(true);
+    ASSERT_EQ(fac.registered(), 0);
+}
 
-    fac1.register_type<my_class>("my_class");
-    auto obj = fac1.create("my_class");
-    ASSERT_EQ (fac1.registered(), 1);
+TEST(DessignPatternFactoryTest, FactoryClear)
+{
+    auto fac = dpc::factory<my_base_class>::get_instance(true);
+    ASSERT_EQ(fac.registered(), 0);
 
-    auto fac2 = dpc::factory<my_class>::get_instance();
-    fac2.register_type<my_class>("my_other_class");
+    fac.register_type<my_derived_class>("my_derived_class");
+    fac.register_type<my_derived_class, int>("my_derived_class");
+    fac.register_type<my_derived_class, float>("my_derived_class");
+    fac.register_type<my_derived_class, float, int>("my_derived_class");
+    fac.register_type<my_derived_class, double, int>("my_derived_class");
 
-    auto obj2 = fac2.create("my_other_class");
-    ASSERT_EQ (fac2.registered(), 2);
+    ASSERT_EQ(fac.clear(), 5);
+}
+
+TEST(DessignPatternFactoryTest, FactoryCreate)
+{
+    auto fac = dpc::factory<my_base_class>::get_instance(true);
+    ASSERT_EQ(fac.registered(), 0);
+
+    fac.register_type<my_derived_class>("my_derived_class");
+    fac.register_type<my_derived_class, int>("my_derived_class");
+    fac.register_type<my_derived_class, float>("my_derived_class");
+    fac.register_type<my_derived_class, float, int>("my_derived_class");
+    fac.register_type<my_derived_class, double, int>("my_derived_class");
+
+    int x = 1;
+    float y = 2.3f;
+    double z = 1.5;
+    auto obj1 = fac.create("my_derived_class", y, 1);
+    auto obj2 = fac.create("my_derived_class", 2.3f, x);
+    auto obj3 = fac.create("my_derived_class", z, 1);
+    auto obj4 = fac.create("my_derived_class", z, x);
+    auto obj5 = fac.create("my_derived_class", z, 1);
+
+    EXPECT_THROW({
+        auto obj6 = fac.create("my_derived_class", z, "undefined");
+    }, dpc::factory_create_exception);
+
 }
 
 TEST(DessignPatternFactoryTest, FactoryCreateException)
 {
-    auto fac = dpc::factory<my_class>::get_instance();
+    auto fac = dpc::factory<my_base_class>::get_instance(true);
+    ASSERT_EQ(fac.registered(), 0);
 
     EXPECT_THROW({
         auto obj = fac.create("undefined_type");

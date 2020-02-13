@@ -1,5 +1,5 @@
-#ifndef DESIGN_PATTERN_EXCEPTION_HPP
-#define DESIGN_PATTERN_EXCEPTION_HPP
+#ifndef PATTERNS_EXCEPTION_HPP
+#define PATTERNS_EXCEPTION_HPP
 
 class design_pattern_exception : public std::exception {
 protected:
@@ -11,4 +11,4 @@ public:
     }
 };
 
-#endif //DESIGN_PATTERN_EXCEPTION_HPP
+#endif //PATTERNS_EXCEPTION_HPP

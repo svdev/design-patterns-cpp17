@@ -1,5 +1,5 @@
-#ifndef COLOR_HPP
-#define COLOR_HPP
+#ifndef PATTERNS_UTIL_COLOR_HPP
+#define PATTERNS_UTIL_COLOR_HPP
 
 #define RST  "\x1B[0m"
 #define KRED  "\x1B[31m"
@@ -22,4 +22,4 @@
 #define UNDL(x) "\x1B[4m" << x << RST
 
 
-#endif //COLOR_HPP
+#endif //PATTERNS_UTIL_COLOR_HPP

@@ -75,6 +75,23 @@ public:
     }
 };
 
+// Parametrized visitor
+class parametrized_visitor : public dpb::visitor<my_visitable_a> {
+public:
+    bool called_params_constructor = false;
+    bool called_default_constructor = false;
+    explicit parametrized_visitor() {
+        std::cout << "[INFO]: Default Constructor" << std::endl;
+        called_default_constructor=true;
+    }
+    explicit parametrized_visitor(int value, const std::string& text) {
+        std::cout << "[INFO]: Params Constructor" << value << std::endl;
+        called_params_constructor=true;
+    }
+    void visit(my_visitable_a& visitable) override {}
+
+};
+
 TEST(DessignPatternVisitorTest, VisitVisitables)
 {
     my_visitor visitor;
@@ -96,7 +113,17 @@ TEST(DessignPatternVisitorTest, VisitVisitables)
 
 TEST(DessignPatternVisitorTest, VisitorFactoryMethod)
 {
-    auto visitor = dpb::make_visitor<my_visitor>();
+    auto visitor1 = dpb::make_visitor<my_visitor>();
+    auto visitor2 = dpb::make_visitor<other_visitor>();
+    auto visitor3 = dpb::make_visitor<parametrized_visitor>();
+    auto visitor4 = dpb::make_visitor<parametrized_visitor>(1, "test");
+
+    ASSERT_STREQ(visitor1->name().c_str(), "my_visitor");
+    ASSERT_STREQ(visitor2->name().c_str(), "other_visitor");
+    ASSERT_STREQ(visitor3->name().c_str(), "parametrized_visitor");
+
+    ASSERT_TRUE(visitor3->called_default_constructor);
+    ASSERT_TRUE(visitor4->called_params_constructor);
 }
 
 int main(int argc, char **argv) {

@@ -1,5 +1,5 @@
-#ifndef DESIGN_PATTERN_OBSERVER_HPP
-#define DESIGN_PATTERN_OBSERVER_HPP
+#ifndef PATTERNS_OBSERVER_HPP
+#define PATTERNS_OBSERVER_HPP
 
 #include <iostream>
 #include <memory>
@@ -107,10 +107,9 @@ private:
 template <typename T, typename... Args>
 static std::shared_ptr<T> make_observer(Args&& ...args)
 {
-    //@TODO: Check T is derived from observer<N...>
     return std::make_shared<T>(std::forward<Args>(args)...);
 }
 
 }
 }
-#endif // DESIGN_PATTERN_OBSERVER_HPP
+#endif // PATTERNS_OBSERVER_HPP
