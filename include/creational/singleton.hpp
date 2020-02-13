@@ -40,7 +40,7 @@ protected:
          */
         // std::cout << "singleton Constructor" << std::endl;
         static bool static_init = []() -> bool {
-          singleton_container<T>::instance;
+          (void)singleton_container<T>::instance;
           // std::cout << "singleton Initialized" << std::endl;
           return true;
         }();

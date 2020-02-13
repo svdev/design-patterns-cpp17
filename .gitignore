@@ -13,4 +13,5 @@ _deps
 lib/*.a
 bin/
 patterns.cbp
+patterns*.cmake
 test/gtest
