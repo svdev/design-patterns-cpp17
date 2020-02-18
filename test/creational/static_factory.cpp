@@ -15,7 +15,7 @@ struct my_derived_class : public my_base_class {
 
 TEST(DessignPatternFactoryTest, FactoryRegistration)
 {
-    auto fac = dpc::factory<my_base_class>::get_instance(true);
+    auto fac = dpc::static_factory<my_base_class>::get_instance(true);
     ASSERT_EQ(fac.registered(), 0);
 
     fac.register_type<my_derived_class>("my_derived_class");
@@ -29,13 +29,13 @@ TEST(DessignPatternFactoryTest, FactoryRegistration)
 
 TEST(DessignPatternFactoryTest, FactoryGetEmpty)
 {
-    auto fac = dpc::factory<my_base_class>::get_instance(true);
+    auto fac = dpc::static_factory<my_base_class>::get_instance(true);
     ASSERT_EQ(fac.registered(), 0);
 }
 
 TEST(DessignPatternFactoryTest, FactoryClear)
 {
-    auto fac = dpc::factory<my_base_class>::get_instance(true);
+    auto fac = dpc::static_factory<my_base_class>::get_instance(true);
     ASSERT_EQ(fac.registered(), 0);
 
     fac.register_type<my_derived_class>("my_derived_class");
@@ -49,7 +49,7 @@ TEST(DessignPatternFactoryTest, FactoryClear)
 
 TEST(DessignPatternFactoryTest, FactoryCreate)
 {
-    auto fac = dpc::factory<my_base_class>::get_instance(true);
+    auto fac = dpc::static_factory<my_base_class>::get_instance(true);
     ASSERT_EQ(fac.registered(), 0);
 
     fac.register_type<my_derived_class>("my_derived_class");
@@ -75,7 +75,7 @@ TEST(DessignPatternFactoryTest, FactoryCreate)
 
 TEST(DessignPatternFactoryTest, FactoryCreateException)
 {
-    auto fac = dpc::factory<my_base_class>::get_instance(true);
+    auto fac = dpc::static_factory<my_base_class>::get_instance(true);
     ASSERT_EQ(fac.registered(), 0);
 
     EXPECT_THROW({

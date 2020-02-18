@@ -1,13 +1,24 @@
 # ##############################
-# FACTORY PATTERN
+# ABSTRACT FACTORY PATTERN
 # ##############################
-set(FACTORY_BINARY factory_test)
-set(FACTORY_BINARY ${FACTORY_BINARY} PARENT_SCOPE)
-add_executable(${FACTORY_BINARY}
-        factory.cpp
+set(ABSTRACT_FACTORY_BINARY abstract_factory_test)
+set(ABSTRACT_FACTORY_BINARY ${ABSTRACT_FACTORY_BINARY} PARENT_SCOPE)
+add_executable(${ABSTRACT_FACTORY_BINARY}
+        abstract_factory.cpp
         ${CMAKE_BINARY_DIR}/include/creational/factory.hpp)
-add_test(NAME ${FACTORY_BINARY} COMMAND ${FACTORY_BINARY})
-target_link_libraries(${FACTORY_BINARY} gtest)
+add_test(NAME ${ABSTRACT_FACTORY_BINARY} COMMAND ${ABSTRACT_FACTORY_BINARY})
+target_link_libraries(${ABSTRACT_FACTORY_BINARY} gtest)
+
+# ##############################
+# STATIC FACTORY PATTERN
+# ##############################
+set(STATIC_FACTORY_BINARY static_factory_test)
+set(STATIC_FACTORY_BINARY ${STATIC_FACTORY_BINARY} PARENT_SCOPE)
+add_executable(${STATIC_FACTORY_BINARY}
+        static_factory.cpp
+        ${CMAKE_BINARY_DIR}/include/creational/factory.hpp)
+add_test(NAME ${STATIC_FACTORY_BINARY} COMMAND ${STATIC_FACTORY_BINARY})
+target_link_libraries(${STATIC_FACTORY_BINARY} gtest)
 
 # ##############################
 # SINGLETON PATTERN
