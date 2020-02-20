@@ -46,6 +46,15 @@ TEST(DessignPatternSingletonTest, SingletonNotEquality)
     ASSERT_TRUE(a != c);
 }
 
+
+TEST(DessignPatternSingletonTest, AcquireLockedInstance)
+{
+    my_singleton::lock lock1;
+    EXPECT_THROW({
+        my_singleton::lock lock2;
+    }, dpc::singleton_exception);
+}
+
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
